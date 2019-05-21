@@ -3,20 +3,21 @@ const communicator = require("../logic/communicator");
 const Promise = require("bluebird");
 const _ = require("lodash");
 const dataStorage = require("../logic/dataStorage");
+const commWrapper = require('../logic/communicateWrapper');
 
 var router = express.Router();
 
 router.get("/items", function(req, res, next) {
 	Promise.try(function() {
-		return communicator.getItems();
+		return commWrapper.getItems()
 	})
-		.then(function(items) {
-			console.log("sending succ resp");
-			res.json(items);
-		})
-		.catch(function(e) {
-			next(e);
-		});
+    .then(function(items) {
+        console.log("sending succ resp");
+        res.json(items);
+    })
+    .catch(function(e) {
+        next(e);
+    });
 });
 
 function bodyValidator(req, res, next) {
@@ -39,20 +40,7 @@ router.post("/item", bodyValidator, function(req, res, next) {
 	const userId = req.body.userId;
 
 	Promise.try(async function() {
-		const user = dataStorage.get(userId);
-		if (!user) throw new Error(`User ${userId} does not exist!`);
-
-		const item = await communicator.getItem(itemId);
-		if (!item) throw new Error("Invalid item");
-
-		if (user.balance <= item.price) throw new Error("User does not have enough balance.");
-
-		const boughtItem = await communicator.buyItem(itemId);
-
-		dataStorage.update(userId, {
-			balance: user.balance - item.price,
-			items: [boughtItem]
-		});
+        await commWrapper.getItems(itemId, userId)
 		res.json({
 			message: `User ${userId} bought item ${itemId} successfully`
 		});

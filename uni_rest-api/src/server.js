@@ -3,10 +3,10 @@ const bodyParser = require("body-parser");
 
 const apiRoutes = require("./routes/api.js");
 const commRoutes = require("./routes/communicator.js");
+const soapRoutes = require('./routes/soap.js')
 const errorHandler = require("./error_handler.js");
 
 const app = express();
-const server = require("http").createServer(app);
 
 if (process.env.NODE_ENV === "dev") {
 	console.log("DEVELOPMENT ENVIRONMENT");
@@ -31,9 +31,13 @@ app.get("/", function(req, res, next) {
 });
 app.use("/api", apiRoutes);
 app.use("/communicate", commRoutes);
-app.use("/*", function(req, res, next) {
-	res.status(404).end();
-});
+
 app.use(errorHandler);
 
-server.listen(3000);
+app.listen(3000, function() {
+    soapRoutes(app)
+});
+
+// app.use("/*", function(req, res, next) {
+// 	res.status(404).end();
+// });

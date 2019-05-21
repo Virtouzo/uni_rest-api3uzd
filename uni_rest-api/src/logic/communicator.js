@@ -6,7 +6,7 @@ class Communicator {
 		console.log("getItems()");
 		return Promise.try(() => {
 			return req({
-				uri: "http://shop:3001/shop",
+				uri: "http://localhost:3001/shop",
 				json: true
 			});
 		})
@@ -25,7 +25,7 @@ class Communicator {
 		console.log("getItem()");
 		return Promise.try(() => {
 			return req({
-				uri: `http://shop:3001/shop/${id}`,
+				uri: `http://localhost:3001/shop/${id}`,
 				json: true
 			});
 		})
@@ -44,7 +44,7 @@ class Communicator {
 		console.log("buyItem()");
 		return Promise.try(() => {
 			return req({
-				uri: `http://shop:3001/shop/${id}`,
+				uri: `http://localhost:3001/shop/${id}`,
 				json: true
 			});
 		})
@@ -54,9 +54,10 @@ class Communicator {
 				if (body.error) throw new Error(body.message);
 				await req({
 					method: "DELETE",
-					uri: `http://shop:3001/shop/${id}`,
+					uri: `http://localhost:3001/shop/${id}`,
 					json: true
-				});
+                });
+                console.log('body return')
 				return body;
 			})
 			.catch(function(resp) {
