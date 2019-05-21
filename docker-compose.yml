@@ -1,0 +1,10 @@
+version: "3"
+services:
+  shop:
+    build: ./manto-service
+    ports:
+      - "8000:3001"
+  users:
+    build: ./uni_rest-api
+    ports:
+      - "80:3000"
