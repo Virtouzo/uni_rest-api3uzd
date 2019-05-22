@@ -50,6 +50,7 @@ function soapRouter(app) {
                             throw new Error(err.message);
                         }
                     });
+                },
                 getUsers: function(args, cb) {
                     console.log('getUsers()')
                     return commWrapper.getUsers()
