@@ -3,6 +3,8 @@
 ```
 docker-compose up
 ```
+
+Linkas i dockerio faila: yourip/wsdlfile
 # Endpointai
 
 **Parduotuves daiktu isgavimas:**
