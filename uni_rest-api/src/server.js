@@ -35,12 +35,12 @@ app.use("/api", apiRoutes);
 app.use("/communicate", commRoutes);
 
 app.get("/wsdlfile", function(req,res,next) {
-	util.getIPAddress(function(err, ip) {
+	//util.getIPAddress(function(err, ip) {
 		const xml = fs.readFileSync(path.resolve(__dirname, "./communicator.wsdl"), "utf8");
-		var xmlnewip = xml.replace(new RegExp('localhost:3000', 'g'), ip)
+		var xmlnewip = xml.replace(new RegExp('localhost:3000', 'g'), req.headers.host)
 		res.set('Content-Type', 'text/xml');
 		res.end(xmlnewip);
-	});
+	//});
 })
 
 app.use(errorHandler);
