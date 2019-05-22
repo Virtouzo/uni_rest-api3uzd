@@ -7,8 +7,6 @@ docker-compose up
 
 **Parduotuves daiktu isgavimas:**
 ```
-getItems
-
 <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
    <soapenv:Header/>
    <soapenv:Body>
@@ -23,8 +21,9 @@ getItems
    <soapenv:Header/>
    <soapenv:Body>
    	<ItemsBuyRequest>
-      <itemId>0</itemId>
-    <userId>1</userId>
+         <itemId>0</itemId>
+         <userId>1</userId>
+      </ItemsBuyRequest>
    </soapenv:Body>
 </soapenv:Envelope>
 ```
