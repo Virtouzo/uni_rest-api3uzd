@@ -7,7 +7,7 @@ const soapRoutes = require('./routes/soap.js')
 const errorHandler = require("./error_handler.js");
 const util         = require('./logic/util');
 const fs           = require('fs');
-
+const path = require('path')
 const app = express();
 
 if (process.env.NODE_ENV === "dev") {
