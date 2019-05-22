@@ -99,11 +99,11 @@
     <wsdl:portType name="CommunicatorPort">
         <wsdl:operation name="getUser">
             <wsdl:input message="tns:UserSpecificGetRequest" />
-            <wsdl:output message="tns:ItemsResponse" />
+            <wsdl:output message="tns:UserSpecificGetResponse" />
         </wsdl:operation>
         <wsdl:operation name="getUsers">
             <wsdl:input message="tns:UsersGetRequest" />
-            <wsdl:output message="tns:ItemsResponse" />
+            <wsdl:output message="tns:UsersGetResponse" />
         </wsdl:operation>
         <wsdl:operation name="getItems">
             <wsdl:input message="tns:ItemsRequest" />

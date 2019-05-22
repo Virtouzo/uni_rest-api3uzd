@@ -49,8 +49,10 @@ class CommunicateWrapper {
             return usersWithItems
         })
     } 
-    getUser(userId) {
-        return dataStorage.get(userId);
+    async getUser(userId) {
+        const users = await this.getUsers();
+        const kUsers = _.keyBy(users, 'id')
+        return kUsers[userId];
     }
 }
 
