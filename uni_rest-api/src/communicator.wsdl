@@ -10,6 +10,18 @@
             </xs:element>
             <xs:element name="UsersGetRequest">
             </xs:element>
+            <xs:element name="UserAddRequest">
+                <xs:complexType>
+                    <xs:element minOccurs="1" maxOccurs="1" name="first_name" type="xs:integer"/>
+                    <xs:element minOccurs="1" maxOccurs="1" name="balance" type="xs:float"/>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="UserRemoveRequest">
+                <xs:complexType>
+                    <xs:element minOccurs="1" maxOccurs="1" name="userId" type="xs:integer"/>
+                </xs:complexType>
+            </xs:element>
+
             <xs:element name="UserSpecificGetRequest">
                 <xs:complexType>
                     <xs:sequence>
@@ -96,6 +108,16 @@
         <wsdl:part name="parameters" element="tns:BuyResp"/>
     </wsdl:message>
 
+    <wsdl:message name="UserAddRequest">
+        <wsdl:part name="parameters" element="tns:UserAddRequest"/>
+    </wsdl:message>
+    <wsdl:message name="UserAddRequest">
+        <wsdl:part name="parameters" element="tns:UserAddRequest"/>
+    </wsdl:message>
+    <wsdl:message name="UserRemoveRequest">
+        <wsdl:part name="parameters" element="tns:UserRemoveRequest"/>
+    </wsdl:message>
+
     <wsdl:portType name="CommunicatorPort">
         <wsdl:operation name="getUser">
             <wsdl:input message="tns:UserSpecificGetRequest" />
@@ -111,6 +133,14 @@
         </wsdl:operation>
         <wsdl:operation name="buyItems">
             <wsdl:input message="tns:ItemsBuyRequest" />
+            <wsdl:output message="tns:ItemsBuyResponse" />
+        </wsdl:operation>
+        <wsdl:operation name="addUser">
+            <wsdl:input message="tns:UserAddRequest" />
+            <wsdl:output message="tns:ItemsBuyResponse" />
+        </wsdl:operation>
+        <wsdl:operation name="removeUser">
+            <wsdl:input message="tns:UserRemoveRequest" />
             <wsdl:output message="tns:ItemsBuyResponse" />
         </wsdl:operation>
     </wsdl:portType>
@@ -146,6 +176,24 @@
         </wsdl:operation>
         <wsdl:operation name="getUsers">
             <soap:operation soapAction="getUsers" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="addUser">
+            <soap:operation soapAction="addUser" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="removeUser">
+            <soap:operation soapAction="removeUser" style="document"/>
             <wsdl:input>
                 <soap:body use="literal"/>
             </wsdl:input>
