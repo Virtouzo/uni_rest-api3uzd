@@ -61,7 +61,7 @@ class Communicator {
 				return body;
 			})
 			.catch(function(resp) {
-				throw resp.error;
+				throw new Error(resp.error.message);
 			});
 	}
 }

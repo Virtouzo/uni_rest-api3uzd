@@ -11,23 +11,45 @@ const soap = require('soap')
 function soapRouter(app) {
     const xml = fs.readFileSync(path.resolve(__dirname, "../communicator.wsdl"), "utf8");
 
+    function errHandler(err, cb) {
+        if (err.message.includes("ECONNREFUSED") || err.message.includes("ENOTFOUND")) {
+            cb(new Error('Shop service is down!'));
+        } else {
+            console.error(err);
+            cb(new Error(err.message));
+        }
+    };
+
 	const CommunicatorService = {
 		CommunicatorService: {
 			CommunicatorPort: {
-				getItems: function(args) {
+				getItems: function(args, cb) {
 					console.log("getting");
-					return commWrapper.getItems();
+                    return commWrapper.getItems()
+                    .catch(function(err) {
+                        if (err.message.includes("ECONNREFUSED") || err.message.includes("ENOTFOUND")) {
+                            throw new Error('Shop service is down!');
+                        } else {
+                            console.error(err);
+                            throw new Error(err.message);
+                        }
+                    });
                 },
                 buyItems: function(args, cb) {
                     const { itemId, userId } = args;
-                    commWrapper.buyItem(itemId, userId)
+                    return commWrapper.buyItem(itemId, userId)
                     .then(() => {
                         cb({result: `User ${userId} bought item ${itemId} successfully` })
                     })
-                    .catch((err) => { 
-                        cb({ result: err.message })
-                    })
-                },
+                    .catch(function(err) {
+                        console.dir(err);
+                        if (err.message.includes("ECONNREFUSED") || err.message.includes("ENOTFOUND")) {
+                            throw new Error('Shop service is down!');
+                        } else {
+                            console.error(err);
+                            throw new Error(err.message);
+                        }
+                    });
                 getUsers: function(args, cb) {
                     console.log('getUsers()')
                     return commWrapper.getUsers()
