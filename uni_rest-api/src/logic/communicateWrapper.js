@@ -54,6 +54,10 @@ class CommunicateWrapper {
         const kUsers = _.keyBy(users, 'id')
         return kUsers[userId];
     }
+    addUser(info) {
+        let key = dataStorage.set(null, req.info);
+        return dataStorage.get(key);
+    }
 }
 
 

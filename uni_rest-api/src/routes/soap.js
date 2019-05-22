@@ -59,6 +59,14 @@ function soapRouter(app) {
                     console.log('getUser()')
                     const {userId} = args
                     return commWrapper.getUser(userId);
+                },
+                addUser: function(args) {
+                    return commWrapper.addUser()
+                },
+                removeUser: function(args) {
+                    const {userId} = args;
+                    dataStorage.del(userId);
+                    return {result: `User ${userId} was deleted successfully` }
                 }
 			}
 		}
