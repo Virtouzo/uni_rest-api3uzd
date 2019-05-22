@@ -2,7 +2,8 @@ const req = require("request-promise");
 const Promise = require("bluebird");
 const communicator = require("../logic/communicator");
 const dataStorage = require('../logic/dataStorage')
-
+const _ = require('lodash')
+const usersLogic = require("../logic/users");
 
 class CommunicateWrapper {
     getItems() {
@@ -28,7 +29,29 @@ class CommunicateWrapper {
             console.log('returning')
             return null;
         })
-    }    
+    } 
+    getUsers() {
+        const allUsers = dataStorage.getAll();
+        const usersWithIds = _.map(allUsers, (user, userId) => {
+            return {
+                id: userId,
+                ...user
+            };
+        });
+    
+        return Promise.try(function() {
+            return Promise.map(usersWithIds, function(user) {
+                return usersLogic.attachItemsToUser(user);
+            });
+        }).then(function(usersWithItems) {
+            console.log("got all users with items");
+            console.dir(usersWithItems);
+            return usersWithItems
+        })
+    } 
+    getUser(userId) {
+        return dataStorage.get(userId);
+    }
 }
 
 

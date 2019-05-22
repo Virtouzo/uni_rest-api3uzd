@@ -4,6 +4,7 @@ const dataStorage = require("../logic/dataStorage");
 var router = express.Router();
 const Promise = require("bluebird");
 const _ = require("lodash");
+const commWrapper = require('../logic/communicateWrapper')
 
 function dataValidator(req, res, next) {
 	req.body.balance = Number(req.body.balance);
@@ -29,31 +30,14 @@ function userExistChecker(req, res, next) {
 	}
 }
 
-router.get("/users", function(req, res, next) {
-	const allUsers = dataStorage.getAll();
-	const usersWithIds = _.map(allUsers, (user, userId) => {
-		return {
-			id: userId,
-			...user
-		};
-	});
+router.get("/users", async function(req, res, next) {
+    const usersWithItems = await commWrapper.getUsers()
+    res.json(usersWithItems);
+})
 
-	Promise.try(function() {
-		return Promise.map(usersWithIds, function(user) {
-			return usersLogic.attachItemsToUser(user);
-		});
-	}).then(function(usersWithItems) {
-		console.log("got all users with items");
-		console.dir(usersWithItems);
-
-		res.json(usersWithItems);
-	});
-});
-
-router.get("/users/:id", userExistChecker, function(req, res, next) {
+router.get("/users/:id", userExistChecker, async function(req, res, next) {
 	const userId = req.params.id;
-	const user = dataStorage.get(userId);
-
+    const user = await commWrapper.getUser(userId);
 	res.json(user);
 });
 

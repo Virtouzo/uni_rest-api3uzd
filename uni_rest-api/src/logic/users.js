@@ -7,7 +7,7 @@ function attachItemsToUser(user) {
 
 	return Promise.try(() => {
 		return req({
-			uri: `http://shop:3001/shop/multiple`,
+			uri: `http://localhost:3001/shop/multiple`,
 			body: {
 				items: itemIds
 			},

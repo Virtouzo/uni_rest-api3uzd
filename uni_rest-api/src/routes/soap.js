@@ -27,8 +27,16 @@ function soapRouter(app) {
                     .catch((err) => { 
                         cb({ result: err.message })
                     })
+                },
+                getUsers: function(args, cb) {
+                    console.log('getUsers()')
+                    return commWrapper.getUsers()
+                },
+                getUser: function(args, cb) {
+                    console.log('getUser()')
+                    const {userId} = args
+                    return commWrapper.getUser(userId);
                 }
-                
 			}
 		}
 	};
